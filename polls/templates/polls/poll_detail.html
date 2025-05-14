@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{poll.question}}</h1>
+
+    <form method = 'POST'>
+        {% csrf_token %}
+        <p>Total choices: {{ poll.choices.count }}</p>
+
+        {% for choice in poll.choices.all %}
+        <label>
+                    <input type="radio" name="choice" value="{{ choice.id }}">
+                    {{ choice.text }}
+        </label> <br>
+        
+        {% endfor %}
+
+        
+
+
+        <button type="submit">Vote</button>
+
+    </form>
+
+    
+</body>
+</html>

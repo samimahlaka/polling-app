@@ -10,7 +10,7 @@ class Poll(models.Model):
         return self.question
     
 class Choice(models.Model):
-    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, name='choices')
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE,  related_name='choices')
     text = models.TextField(max_length=220)
     vote = models.IntegerField(default=0)
     
