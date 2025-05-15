@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head><title>Poll List</title></head>
+<body>
+    <h1>Polls</h1>
+
+    {% for poll in page %}
+        <p><strong>{{ poll.question }}</strong></p>
+
+        {% for choice in poll.choices.all %}
+            <p>{{choice.id}} -{{ choice.text }}</p>
+        {% empty %}
+            <p>No choices available.</p>
+        {% endfor %}
+
+    {% empty %}
+        <p>No polls available.</p>
+    {% endfor %}
+
+    {% if page.has_previous %}
+        <a href="?page={{ page.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    {% if page.has_next %}
+        <a href="?page={{ page.next_page_number }}">Next</a>
+    {% endif %}
+</body>
+</html>
