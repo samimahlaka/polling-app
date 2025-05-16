@@ -6,24 +6,46 @@ from django.core.paginator import Paginator
 from .serializers import PollSerializer
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 
+#html view for a poll
 def poll_detail(request, poll_id):
     poll= get_object_or_404(Poll, id  = poll_id)
     return render(request, 'polls/poll_detail.html', {'poll': poll})
-# Create your views here.
 
+
+#api view for a poll
 @api_view(['GET'])
 def get_poll(request, poll_id):
     poll = get_object_or_404(Poll, id=poll_id)
     return Response(PollSerializer(poll).data)
 
-@api_view(['POST'])
-def vote_submit(request, choice_id):
-    choice = get_object_or_404(Choice, id = choice_id)
-    choice.vote += 1
-    choice.save()
-    return Response({'message' : 'Vote added' , 'votes':choice.vote})
 
+#html view for vote submit
+def vote_submit(request):
+    if request.method == "POST":
+        choice_id = request.POST.get("choice_id")
+        choice = get_object_or_404(Choice, id=choice_id)
+        choice.vote +=1
+        choice.save()
+        #return render(request, 'polls/poll_detail.html', {'poll' : choice.poll} ) ---> template expects a poll 
+        return redirect('poll_detail', poll_id = choice.poll.id) #url expects <int:poll_id> i.e poll.id
+
+#api view for vote submit
+
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
+@csrf_exempt
+def vote_submit_api(request, choice_id):
+   choice = get_object_or_404(Choice, id = choice_id)
+   choice.vote +=1 
+   choice.save()
+   return Response({'message': 'Vote added' , 'vote' : choice.vote})
+
+
+   
 @api_view(['GET'])
 def poll_result(request, poll_id):
     poll = get_object_or_404(Poll, id=poll_id)

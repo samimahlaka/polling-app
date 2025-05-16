@@ -5,18 +5,22 @@
     <h1>Polls</h1>
 
     {% for poll in page %}
-        <p><strong>{{ poll.question }}</strong></p>
+        <form method="POST" action="{% url 'vote_submit'%}">
+            {% csrf_token %}
+            <p><strong>{{ poll.question }}</strong></p>
 
-        {% for choice in poll.choices.all %}
-            <p>{{choice.id}} -{{ choice.text }}</p>
-        {% empty %}
-            <p>No choices available.</p>
-        {% endfor %}
+           {% for choice in poll.choices.all %}
+                <input type="radio" name="choice_id" value="{{ choice.id }}" required>
+                <label>{{ choice.text }}</label><br>
+            {% endfor %}
 
+        
+    
     {% empty %}
         <p>No polls available.</p>
     {% endfor %}
-
+        <button type='submit'>Vote</button><br><br>
+            </form>
     {% if page.has_previous %}
         <a href="?page={{ page.previous_page_number }}">Previous</a>
     {% endif %}
