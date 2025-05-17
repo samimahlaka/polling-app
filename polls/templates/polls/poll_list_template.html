@@ -2,31 +2,78 @@
 <html>
 <head><title>Poll List</title></head>
 <body>
-    <h1>Polls</h1>
 
-    {% for poll in page %}
-        <form method="POST" action="{% url 'vote_submit'%}">
-            {% csrf_token %}
-            <p><strong>{{ poll.question }}</strong></p>
+<h1>Polls</h1>
 
-           {% for choice in poll.choices.all %}
-                <input type="radio" name="choice_id" value="{{ choice.id }}" required>
-                <label>{{ choice.text }}</label><br>
-            {% endfor %}
+<form id="poll_form">
+  {% csrf_token %}
+  
+  {% for poll in page %}
+    <p><strong>{{ poll.question }}</strong></p>
 
-        
-    
-    {% empty %}
-        <p>No polls available.</p>
+    {% for choice in poll.choices.all %}
+      <label>
+        <input type="radio" name="{{ poll.id }}" value="{{ choice.id }}" required>
+        {{ choice.text }}
+      </label><br>
     {% endfor %}
-        <button type='submit'>Vote</button><br><br>
-            </form>
-    {% if page.has_previous %}
-        <a href="?page={{ page.previous_page_number }}">Previous</a>
-    {% endif %}
+    <hr>
+  {% empty %}
+    <p>No polls available.</p>
+  {% endfor %}
 
-    {% if page.has_next %}
-        <a href="?page={{ page.next_page_number }}">Next</a>
-    {% endif %}
+  {% if not page.has_next %}
+    <button type="button" id="submitVotes">Submit Vote</button><br>
+  {% endif %}
+</form>
+
+<!-- Pagination Links -->
+{% if page.has_previous %}
+  <a href="?page={{ page.previous_page_number }}">Previous</a>
+{% endif %}
+{% if page.has_next %}
+  <a href="?page={{ page.next_page_number }}">Next</a>
+{% endif %}
+
+<script>
+  document.getElementById('submitVotes')?.addEventListener('click', function () {
+    const selected = document.querySelectorAll("input[type='radio']:checked");
+
+    if (selected.length === 0) {
+      alert('Please select at least one choice.');
+      return;
+    }
+
+    const votes = Array.from(selected).map(function(input) {
+      return { choice_id: input.value };
+    });
+
+    Promise.all(
+      votes.map(function(vote) {
+        return fetch(`/api/vote/${vote.choice_id}/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCSRFToken()
+          },
+          body: JSON.stringify({})
+        });
+      })
+    )
+    .then(function () {
+      window.location.href = '/polls/thankyou/';
+    })
+    .catch(function (error) {
+      alert("Something went wrong.");
+      console.error(error);
+    });
+  });
+
+  function getCSRFToken() {
+    const match = document.cookie.match(/csrftoken=([\w-]+)/);
+    return match ? match[1] : '';
+  }
+</script>
+
 </body>
 </html>
