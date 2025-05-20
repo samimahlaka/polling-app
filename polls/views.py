@@ -156,7 +156,151 @@ def api_poll_delete(request, poll_id):
         return Response({'message' : 'Authentication not allowed'} , status = status.HTTP_400_BAD_REQUEST)
     
     
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def api_poll_update(request, poll_id):
+    try:
+        poll = Poll.objects.get(id = poll_id)
+    
+    except Poll.DoesNotExist:
+        return Response({'message' : 'No such poll exist'} , status = status.HTTP_400_BAD_REQUEST)
+    
+    if request.user != poll.created_by:
+        return Response({'message' : 'Authentication not allowed'} , status = status.HTTP_400_BAD_REQUEST)
+    
+    new_question = request.data.get('question')
+    
+    if new_question:
+        poll.question = new_question
+        poll.save()
+    
+    new_choices = request.data.get('choices')
+    
+    if new_choices:
+        for choice in new_choices:
+            Choice.objects.create(poll=poll, text = choice)
+        return Response({'message' : 'poll updsted successfully'}, status = 200)
+    
+    return Response({'message': 'Poll updated successfully'}, status=200)
+    
 
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
  
  
