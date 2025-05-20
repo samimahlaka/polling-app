@@ -103,7 +103,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
         'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-        'PAGE_SIZE': 3
+        'PAGE_SIZE': 3,
+        'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',  # for browser-based login
+        'rest_framework.authentication.BasicAuthentication',    # for Postman/API testing
+    ]
 
 }
 

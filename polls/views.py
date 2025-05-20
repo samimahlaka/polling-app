@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Poll, Choice
-from rest_framework.decorators import api_view
+from django.contrib.auth.models import User
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from django.core.paginator import Paginator
 from .serializers import PollSerializer
@@ -8,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 #html view for a poll
 def poll_detail(request, poll_id):
@@ -77,4 +79,114 @@ def poll_list_template(request):
     return render(request , 'polls/poll_list_template.html', {'page' : page})
     
     
+def thankyou(request):
+    message = 'Thankyou for voting'
+    return render(request, 'polls/thankyou.html', {'message' : message})
+
+@api_view(['GET'])
+def api_thankyou(request):
+    return Response({'message' : 'Thankyou for voting'})    
+    
+   
+@api_view(['POST'])
+def create_poll_with_choices(request):
+    question=request.data.get('question')
+    choices = request.data.get('choices')
+    user_id = request.data.get('user_id')
+    
+    
+    
+    if not user_id or not choices or not question:
+        return Response({'error' : 'Question, choices, and user_id are required.'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    try:
+        user = User.objects.get(id= user_id)
+    except User.DoesNotExist:
+        return Response({'error': 'Invalid user ID.'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    poll = Poll.objects.create(question=question,created_by= user)
+    
+    for choice_text in choices:
+         Choice.objects.create(poll=poll , text = choice_text)
+    
+    return Response({'message': 'Poll created successfully'} , status=status.HTTP_200_OK)
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+    
+    
         
+
+    

@@ -11,4 +11,11 @@ urlpatterns = [
     path('results/<int:poll_id>/', views.poll_result),
     path('api/poll_list/', views.PollListView.as_view(), name = 'poll_list_api'),
     path('poll_list/',views.poll_list_template, name = 'poll_list'),
+    path('api/thankyou/', views.api_thankyou),
+    path('thankyou/', views.thankyou),
+    path('api/polls/create/', views.create_poll_with_choices, name='create_poll'),
+    path('api/add_choices/<int:poll_id>/', views.add_choice),
+    path('api/poll_detail/<int:poll_id>/',views.api_poll_detail),
+    path('api/poll_delete/<int:poll_id>/', views.api_poll_delete),
+    path('api/poll_update/<int:poll_id>/', views.api_poll_update),
     ]
