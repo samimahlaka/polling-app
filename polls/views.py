@@ -112,7 +112,117 @@ def create_poll_with_choices(request):
     
     return Response({'message': 'Poll created successfully'} , status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+def add_choice(request, poll_id):
+    try:
+        poll = Poll.objects.get(id = poll_id)
+        
+    except Poll.DoesNotExist:
+        return Response({'message' : 'No such poll exist'} , status = status.HTTP_400_BAD_REQUEST)
+        
+    new_choices= request.data.get('choices')
+    
+    try:
+        for choice_text in new_choices:
+            Choice.objects.create(poll=poll, text=choice_text)
+            return Response({'message' : 'choices added successfully'}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)
+   
 
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
  
  
