@@ -142,7 +142,7 @@ def api_poll_detail(request, poll_id):
     
     return Response(PollSerializer(poll).data, status=status.HTTP_200_OK)
     
-@permission_classes([IsAuthenticated])  
+#@permission_classes([IsAuthenticated])  
 @api_view(['DELETE'])
 def api_poll_delete(request, poll_id):
     try:
@@ -152,11 +152,10 @@ def api_poll_delete(request, poll_id):
     except Poll.DoesNotExist:
         return Response({'message' : 'No such poll exist'} , status = status.HTTP_400_BAD_REQUEST)
     
-    if poll.created_by != request.user:
-        poll.delete()
-        return Response({'message' : 'poll deleted!'} , status = status.HTTP_200_OK)
-    else:
-        return Response({'message' : 'Authentication not allowed'} , status = status.HTTP_400_BAD_REQUEST)
+    #if poll.created_by == request.user:
+    poll.delete()
+    return Response({'message' : 'poll deleted!'} , status = status.HTTP_200_OK)
+ 
     
     
 @api_view(['PUT'])
