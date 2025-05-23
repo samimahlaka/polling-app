@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Poll</title>
+</head>
+<body>
+    <h2>Create New Poll</h2>
+
+    <div id = 'create-poll-container'>
+
+       <input type="hidden" id="user-id" value="1">
+
+        <label for="poll-question"> 
+            <span> Enter poll </span>
+            <input type="text" id="poll-question"> 
+        </label>
+
+        <p>Enter Choices:</p>
+            <input type="text" class="poll-choice" placeholder="Choice 1"><br><br>
+            <input type="text" class="poll-choice" placeholder="Choice 2"><br><br>
+            <input type="text" class="poll-choice" placeholder="Choice 3"><br><br>
+            <input type="text" class="poll-choice" placeholder="Choice 4"><br><br>
+
+    </div>
+
+    <button type="submit">Create poll</button>
+</body>
+</html>
+<script src="create-poll.js"></script>

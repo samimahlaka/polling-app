@@ -53,10 +53,14 @@ def poll_result(request, poll_id):
     poll = get_object_or_404(Poll, id=poll_id)
     return Response(PollSerializer(poll).data)
 
-# @api_view(['GET'])
-# def poll_list(request):
-#     poll = Poll.objects.all()
-#     return Response(PollSerializer(poll, many=True).data)
+
+def polls(request):
+    return render(request , 'polls/polls.html')
+
+@api_view(['GET'])
+def poll_list(request):
+    poll = Poll.objects.all()
+    return Response(PollSerializer(poll, many=True).data)
 
 class PollListView(ListAPIView):
     queryset = Poll.objects.all()
@@ -93,7 +97,6 @@ def create_poll_with_choices(request):
     question=request.data.get('question')
     choices = request.data.get('choices')
     user_id = request.data.get('user_id')
-    
     
     
     if not user_id or not choices or not question:
@@ -167,7 +170,7 @@ def api_poll_update(request, poll_id):
     
     if request.user != poll.created_by:
         return Response({'message' : 'Authentication not allowed'} , status = status.HTTP_400_BAD_REQUEST)
-    
+        
     new_question = request.data.get('question')
     
     if new_question:
@@ -182,7 +185,10 @@ def api_poll_update(request, poll_id):
         return Response({'message' : 'poll updsted successfully'}, status = 200)
     
     return Response({'message': 'Poll updated successfully'}, status=200)
-    
+
+
+
+
 
 
 
