@@ -17,7 +17,7 @@ document.getElementById('result-btn').addEventListener('click', function(){
 
     .then(function(response){
         if (!response.ok) {
-            throw new Error('Poll not found'); 
+            throw new Error('Poll not found');  
         }
         return response.json()
     })
