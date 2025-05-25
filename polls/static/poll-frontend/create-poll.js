@@ -1,3 +1,6 @@
+const BASE_URL = "https://polling-app-batu.onrender.com";
+
+
 document.querySelector('button').onclick = function() {
     console.log("Fetching to API...");
 
@@ -23,7 +26,7 @@ console.log("Sending this data:", {
 });
 
 
-fetch('http://127.0.0.1:8002/polls/api/create-poll/', {
+fetch(`${BASE_URL}/polls/api/create-poll/`, {
     method : 'POST',
     headers : {
         'Content-Type' : 'application/json',

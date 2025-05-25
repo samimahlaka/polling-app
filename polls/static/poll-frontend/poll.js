@@ -1,6 +1,7 @@
+const BASE_URL = "https://polling-app-batu.onrender.com";
 
 
-fetch('http://127.0.0.1:8003/polls/api/poll_list/')
+fetch(`${BASE_URL}/polls/api/poll_list/`)
 
 
 .then(function(response){
@@ -44,7 +45,7 @@ document.querySelector('button').addEventListener('click', function(){
 
     Promise.all(
         votes.map(function(vote){
-                return fetch (`http://127.0.0.1:8003/polls/api/vote/${vote.choice_id}/`, 
+                return fetch (`${BASE_URL}/api/vote/${vote.choice_id}/`, 
                 {
                     method : 'POST',
                     headers : {

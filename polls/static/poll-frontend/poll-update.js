@@ -1,3 +1,6 @@
+const BASE_URL = "https://polling-app-batu.onrender.com";
+
+
 document.getElementById('update-btn').addEventListener('click', function () {
     const pollId = document.getElementById('poll-id').value;
 
@@ -5,7 +8,7 @@ document.getElementById('update-btn').addEventListener('click', function () {
         return console.error('PLEASE ENTER VALID POLL ID');
     }
 
-    fetch(`http://127.0.0.1:8002/polls/api/poll_detail/${pollId}/`, {
+    fetch(`${BASE_URL}/polls/api/poll_detail/${pollId}/`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -51,7 +54,7 @@ document.getElementById('update-btn').addEventListener('click', function () {
                 };
             });
 
-            fetch(`http://127.0.0.1:8002/polls/api/poll_update/${pollId}/`, {
+            fetch(`${BASE_URL}/polls/api/poll_update/${pollId}/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

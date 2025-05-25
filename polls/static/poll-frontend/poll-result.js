@@ -1,3 +1,6 @@
+const BASE_URL = "https://polling-app-batu.onrender.com";
+
+
 document.getElementById('result-btn').addEventListener('click', function(){
     const pollId = document.getElementById('poll-id').value
 
@@ -6,7 +9,7 @@ document.getElementById('result-btn').addEventListener('click', function(){
     return
     }   
 
-    fetch(`http://127.0.0.1:8009/polls/api/result/${pollId}/`,
+    fetch(`${BASE_URL}/polls/api/result/${pollId}/`,
         {
             method : 'GET' ,
             headers : {

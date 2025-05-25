@@ -1,3 +1,6 @@
+const BASE_URL = "https://polling-app-batu.onrender.com";
+
+
 document.getElementById('del-btn').addEventListener('click', function(){
     const pollId = document.getElementById('poll_id').value
 
@@ -6,7 +9,7 @@ document.getElementById('del-btn').addEventListener('click', function(){
         return
     }
 
-    fetch(`http://127.0.0.1:8004/polls/api/poll_delete/${pollId}/`,
+    fetch(`${BASE_URL}/polls/api/poll_delete/${pollId}/`,
         {
             method : 'DELETE',
             headers : {
